@@ -97,6 +97,10 @@ jobs:
           }
           
           # --- 第一部分：常规规则同步 ---
+          # 推送
+          URL_PROXY=“https://raw.githubusercontent.com/QuixoticHeart/rule-set/refs/heads/ruleset/loon/apns.list”
+          process_rule "$URL_PROXY" "AppleAPns.list" "阿涛Atao的「AppleAPns」规则"
+          
           # Loyalsoldier 仓库
           URL_PROXY="https://raw.githubusercontent.com/Loyalsoldier/surge-rules/release/ruleset/cncidr.txt"
           process_rule "$URL_PROXY" "ChinaCIDR.list" "阿涛Atao的「ChinaCIDR」规则"
