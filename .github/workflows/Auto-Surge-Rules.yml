@@ -98,7 +98,7 @@ jobs:
           
           # --- 第一部分：常规规则同步 ---
           # 推送
-          URL_PROXY=“https://raw.githubusercontent.com/QuixoticHeart/rule-set/refs/heads/ruleset/loon/apns.list”
+          URL_PROXY="https://raw.githubusercontent.com/QuixoticHeart/rule-set/refs/heads/ruleset/loon/apns.list"
           process_rule "$URL_PROXY" "AppleAPns.list" "阿涛Atao的「AppleAPns」规则"
           
           # Loyalsoldier 仓库
