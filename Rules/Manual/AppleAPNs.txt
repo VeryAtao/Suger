@@ -1,5 +1,5 @@
 # 推送
-apple.com
+bi.2022622.xyz
 
 DOMAIN,identity.apple.com
 DOMAIN-SUFFIX,akadns.net
