@@ -40,50 +40,83 @@ jobs:
           UPDATE_TIME=$(TZ="Asia/Shanghai" date +"%Y.%m.%d %H:%M:%S")
           
           # 1. 定义标准处理函数 (用于 1对1 的规则同步)
+          
           process_rule() {
             local source_url=$1
             local target_name=$2
             local display_name=$3
-            
+
             local target_path="Rules/$target_name"
             local filename_no_ext="${target_name%.*}"
             local manual_file="Rules/Manual/${filename_no_ext}.txt"
             local exclude_file="Rules/Manual/${filename_no_ext}.exclude.txt"
-            PROCESSED_RULES+=("$filename_no_ext")
-            
-            temp_body=$(mktemp)
-            
-            # A. 合并手动追加规则 (去除尾部多余空行，紧凑输出)
+
+            local upstream_temp=$(mktemp)
+            local manual_temp=$(mktemp)
+            local merged_temp=$(mktemp)
+
+            echo "======================================"
+            echo "开始处理：$target_name"
+            echo "上游地址：$source_url"
+            echo "手动文件：$manual_file"
+
+            # A. 下载上游规则
+            if ! curl -fsSL --connect-timeout 15 --max-time 120 \
+              "$source_url" -o "$upstream_temp"; then
+              echo "错误：上游文件下载失败，保留原有文件：$target_path"
+              rm -f "$upstream_temp" "$manual_temp" "$merged_temp"
+              return 1
+            fi
+
+            if [ ! -s "$upstream_temp" ]; then
+              echo "错误：上游文件为空，保留原有文件：$target_path"
+              rm -f "$upstream_temp" "$manual_temp" "$merged_temp"
+              return 1
+            fi
+
+            # B. 清洗上游规则
+            sed 's/\r$//' "$upstream_temp" |
+              grep -v '^#' |
+              grep -v '^[[:space:]]*$' > "${upstream_temp}.clean"
+
+            # C. 应用上游排除规则
+            if [ -s "$exclude_file" ]; then
+              grep -vFf "$exclude_file" \
+                "${upstream_temp}.clean" > "${upstream_temp}.filtered" || true
+              mv "${upstream_temp}.filtered" "${upstream_temp}.clean"
+            fi
+
+            # D. 读取同名手动规则
             if [ -f "$manual_file" ]; then
-              # 剔除 Windows 回车符，并过滤文件末尾悬挂的空白行
-              local clean_manual
-              clean_manual=$(awk '
-                { sub(/\r$/, "") }
-                /^[[:space:]]*$/ { blank = blank $0 "\n"; next }
-                { printf "%s%s\n", blank, $0; blank = "" }
-              ' "$manual_file")
-              
-              if [ -n "$clean_manual" ]; then
-                echo "# ======= 手动维护规则 ========" >> "$temp_body"
-                echo "$clean_manual" >> "$temp_body"
-              fi
-            fi
-            
-            # B. 写入上游同步规则 (紧贴手动规则输出)
-            echo "# ======= 上游同步规则 ========" >> "$temp_body"
-            if [ -f "$exclude_file" ] && [ -s "$exclude_file" ]; then
-              curl -sL "$source_url" | sed 's/\r//g' | grep -v '^#' | grep -v '^[[:space:]]*$' | grep -vFf "$exclude_file" >> "$temp_body"
+              sed 's/\r$//' "$manual_file" > "$manual_temp"
+              echo "发现手动规则：$manual_file"
             else
-              curl -sL "$source_url" | sed 's/\r//g' | grep -v '^#' | grep -v '^[[:space:]]*$' >> "$temp_body"
+              : > "$manual_temp"
+              echo "没有同名手动规则文件"
             fi
-            
-            # C. 规则去重（保留注释顺序，去除正文完全重复的行）
-            awk '/^#|^[[:space:]]*$/ {print; next} !seen[$0]++' "$temp_body" > "${temp_body}.tmp" && mv "${temp_body}.tmp" "$temp_body"
-            
-            # D. 统计非注释且非空行的行数
-            local rule_count=$(grep -v '^#' "$temp_body" | grep -v '^[[:space:]]*$' | wc -l)
-            
-            # E. 构造最终文件
+
+            # E. 合并：手动规则 + 上游规则
+            {
+              if [ -s "$manual_temp" ]; then
+                echo "# ======= 手动维护规则 ========"
+                cat "$manual_temp"
+                echo ""
+              fi
+
+              echo "# ======= 上游同步规则 ========"
+              cat "${upstream_temp}.clean"
+            } > "$merged_temp"
+
+            # F. 去重，保留注释和规则顺序
+            awk '/^#|^[[:space:]]*$/ {print; next} !seen[$0]++' \
+              "$merged_temp" > "${merged_temp}.dedup"
+
+            # G. 统计规则数量
+            local rule_count
+            rule_count=$(grep -v '^#' "${merged_temp}.dedup" |
+              grep -v '^[[:space:]]*$' | wc -l)
+
+            # H. 生成最终文件
             {
               echo "# NAME: $display_name"
               echo "# AUTHOR: VeryAtao"
@@ -91,10 +124,17 @@ jobs:
               echo "# UPDATED: $UPDATE_TIME"
               echo "# TOTAL: $rule_count"
               echo ""
-              cat "$temp_body"
+              cat "${merged_temp}.dedup"
             } > "$target_path"
 
-            rm -f "$temp_body"
+            echo "合并完成：$target_path"
+            echo "手动规则文件：$manual_file"
+            echo "最终规则数量：$rule_count"
+
+            rm -f "$upstream_temp" "$manual_temp" \
+              "$merged_temp" "${upstream_temp}.clean" \
+              "${merged_temp}.dedup"
+
           }
           
           # --- 第一部分：常规规则同步 ---
