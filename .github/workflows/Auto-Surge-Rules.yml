@@ -180,65 +180,6 @@ jobs:
           URL_PROXY="https://raw.githubusercontent.com/AMEKIN/Surge/refs/heads/main/rules/Meta.list"
           process_rule "$URL_PROXY" "Meta.list" "阿涛Atao的「Meta」规则"  
 
-          
-          # --- 自动扫描未配置上游的手动规则 ---
-          echo "开始扫描 Manual 目录中的独立手动规则..."
-
-          shopt -s nullglob
-
-          for manual_file in Rules/Manual/*.txt; do
-            filename=$(basename "$manual_file" .txt)
-
-            # 排除文件不作为独立规则
-            [[ "$filename" == *.exclude ]] && continue
-
-            # Proxy.txt 由专门的聚合逻辑处理
-            [[ "$filename" == "Proxy" ]] && continue
-
-            # 已经配置上游同步的文件不重复生成
-            if [[ " ${PROCESSED_RULES[*]} " == *" $filename "* ]]; then
-              continue
-            fi
-
-            # 空文件不生成
-            [ -s "$manual_file" ] || continue
-
-            echo "发现独立手动规则：$filename"
-
-            target_path="Rules/${filename}.list"
-            temp_body=$(mktemp)
-
-            # 清理 Windows 回车符
-            sed 's/\r$//' "$manual_file" > "$temp_body"
-
-            # 去重，保留注释
-            awk '/^#|^[[:space:]]*$/ {print; next} !seen[$0]++' \
-              "$temp_body" > "${temp_body}.tmp" \
-              && mv "${temp_body}.tmp" "$temp_body"
-
-            # 统计规则数量
-            rule_count=$(grep -v '^#' "$temp_body" \
-              | grep -v '^[[:space:]]*$' | wc -l)
-
-            # 生成独立规则文件
-            {
-              echo "# NAME: 阿涛Atao的「${filename}」规则"
-              echo "# AUTHOR: VeryAtao"
-              echo "# REPO: https://github.com/VeryAtao/Surge"
-              echo "# UPDATED: $UPDATE_TIME"
-              echo "# TOTAL: $rule_count"
-              echo ""
-              echo "# ======= 手动维护规则 ========"
-              cat "$temp_body"
-            } > "$target_path"
-
-            rm -f "$temp_body"
-
-            echo "生成完成：$target_path"
-          done
-
-          shopt -u nullglob
-
           # --- 第二部分：Proxy.list 聚合处理 ---
           PROXY_TARGET="Rules/Proxy.list"
           PROXY_EXCLUDE="Rules/Manual/Proxy.exclude.txt"
