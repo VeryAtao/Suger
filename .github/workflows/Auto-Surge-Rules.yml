@@ -1,7 +1,7 @@
 # 深巷有喵的「Surge」上游同步规则
-# 版本：1.4.2
-# 日期：2026.11.02
-# 作者：https://github.com/Rabbit-Spec/Surge
+# 版本：1.0
+# 日期：2026.11.14
+# 作者：https://github.com/VeryAtao/Surge
 
 name: Auto-Surge-Rules
 
@@ -85,7 +85,7 @@ jobs:
             # E. 构造最终文件
             {
               echo "# NAME: $display_name"
-              echo "# AUTHOR: Rabbit-Spec"
+              echo "# AUTHOR: VeryAtao"
               echo "# REPO: https://github.com/VeryAtao/Surge"
               echo "# UPDATED: $UPDATE_TIME"
               echo "# TOTAL: $rule_count"
