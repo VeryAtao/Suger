@@ -1,8 +1,8 @@
-# NAME: 深巷有喵的「Proxy」规则
-# AUTHOR: Rabbit-Spec
-# REPO: https://github.com/Rabbit-Spec/Surge
-# UPDATED: 2026.11.14 08:48:54
-# TOTAL: 24482
+# NAME: 阿涛Atao的「Proxy」规则
+# AUTHOR: VeryAtao
+# REPO: https://github.com/VeryAtao/Surge
+# UPDATED: 2026.11.14 23:51:21
+# TOTAL: 24483
 
 # ======= 手动维护规则 ========
 # SNBFORUMS
@@ -2374,6 +2374,7 @@ DOMAIN-SUFFIX,51lieqi.com
 DOMAIN-SUFFIX,51luoben.com
 DOMAIN-SUFFIX,51luoli.info
 DOMAIN-SUFFIX,51mh.app
+DOMAIN-SUFFIX,51papaya.com
 DOMAIN-SUFFIX,51pincha.cc
 DOMAIN-SUFFIX,51tuqiang.com
 DOMAIN-SUFFIX,520aa.tv
