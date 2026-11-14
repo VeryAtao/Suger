@@ -1,13 +1,10 @@
 # NAME: 阿涛Atao的「AppleAPNs」规则
 # AUTHOR: VeryAtao
 # REPO: https://github.com/VeryAtao/Surge
-# UPDATED: 2026.11.15 01:30:02
-# TOTAL: 14
+# UPDATED: 2026.11.15 01:35:28
+# TOTAL: 13
 
 # ======= 手动维护规则 ========
-# 推送
-bi.2022622.xyz
-
 DOMAIN,identity.apple.com
 DOMAIN-SUFFIX,akadns.net
 DOMAIN-SUFFIX,push.apple.com
