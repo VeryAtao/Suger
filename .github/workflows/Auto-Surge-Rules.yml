@@ -138,6 +138,9 @@ jobs:
           }
           
           # --- 第一部分：常规规则同步 ---
+          # blackmatrix7 仓库
+          URL_PROXY="https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/GitHub/GitHub.list"
+          process_rule "$URL_PROXY" "GitHub.list" "阿涛Atao的「GitHub」规则"
           # 推送
           URL_PROXY="https://raw.githubusercontent.com/QuixoticHeart/rule-set/refs/heads/ruleset/loon/apns.list"
           process_rule "$URL_PROXY" "AppleAPns.list" "阿涛Atao的「AppleAPns」规则"
@@ -162,6 +165,12 @@ jobs:
           process_rule "$URL_PROXY" "TelegramASN.list" "阿涛Atao的「TelegramASN」规则"
 
           # MagicRule 仓库
+          URL_PROXY="https://magicrule.pages.dev/data/_shared/artifacts/Twitter_rules_0924ca0971e18745.list"
+          process_rule "$URL_PROXY" "X(Twitter).list" "阿涛Atao的「iCloud」规则"
+          
+          URL_PROXY="https://magicrule.pages.dev/data/_shared/artifacts/iCloud_rules_2ed29d3d438b7646.list"
+          process_rule "$URL_PROXY" "iCloud.list" "阿涛Atao的「iCloud」规则"
+          
           URL_PROXY="https://magicrule.pages.dev/data/_shared/artifacts/GoogleFCM_rules_4f25d01f26a5f22c.list"
           process_rule "$URL_PROXY" "GoogleFCM.list" "阿涛Atao的「GoogleFCM」规则"
           
