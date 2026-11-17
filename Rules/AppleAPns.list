@@ -1,11 +1,11 @@
 # NAME: 阿涛Atao的「AppleAPns」规则
 # AUTHOR: VeryAtao
 # REPO: https://github.com/VeryAtao/Surge
-# UPDATED: 2026.11.16 07:57:54
-# TOTAL: 14
+# UPDATED: 2026.11.17 10:55:31
+# TOTAL: 13
 
 # ======= 手动维护规则 ========
-aaa.com
+
 
 # ======= 上游同步规则 ========
 DOMAIN,identity.apple.com
