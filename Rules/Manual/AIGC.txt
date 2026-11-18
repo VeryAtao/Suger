@@ -1,3 +1,5 @@
 # Cursor
 DOMAIN-SUFFIX,cursor.com
 DOMAIN-SUFFIX,cursor.sh
+# mistral
+DOMAIN-SUFFIX,mistral.ai
