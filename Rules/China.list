@@ -1,8 +1,8 @@
 # NAME: 阿涛Atao的「China」规则
 # AUTHOR: VeryAtao
 # REPO: https://github.com/VeryAtao/Surge
-# UPDATED: 2026.11.18 10:26:26
-# TOTAL: 6404
+# UPDATED: 2026.11.19 09:52:36
+# TOTAL: 6406
 
 # ======= 手动维护规则 ========
 # 博客
@@ -152,6 +152,8 @@ xtratime.qcomgeo2.com
 .1nongjing.com
 .1ppt.com
 .1ting.com
+.1y.com
+.1ycdn.com
 .1zhe.com
 .20130123.com
 .21cn.com
