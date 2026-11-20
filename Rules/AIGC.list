@@ -1,8 +1,8 @@
 # NAME: 阿涛Atao的「AIGC」规则
 # AUTHOR: VeryAtao
 # REPO: https://github.com/VeryAtao/Surge
-# UPDATED: 2026.11.19 09:52:36
-# TOTAL: 106
+# UPDATED: 2026.11.20 09:46:10
+# TOTAL: 108
 
 # ======= 手动维护规则 ========
 # Cursor
@@ -23,9 +23,11 @@ DOMAIN,antigravity-unleash.goog
 DOMAIN,antigravity.google
 DOMAIN,api.github.com
 DOMAIN,api.jetbrains.ai
+DOMAIN,bridge.claudeusercontent.com
 DOMAIN,browser-intake-datadoghq.com
 DOMAIN,cdn.usefathom.com
 DOMAIN,chat.openai.com.cdn.cloudflare.net
+DOMAIN,claude.site
 DOMAIN,cloud.zed.dev
 DOMAIN,daily-cloudcode-pa.googleapis.com
 DOMAIN,daily-cloudcode-pa.sandbox.googleapis.com
