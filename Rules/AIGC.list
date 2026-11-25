@@ -1,8 +1,8 @@
 # NAME: 阿涛Atao的「AIGC」规则
 # AUTHOR: VeryAtao
 # REPO: https://github.com/VeryAtao/Surge
-# UPDATED: 2026.11.24 12:47:54
-# TOTAL: 357
+# UPDATED: 2026.11.25 11:33:00
+# TOTAL: 358
 
 # ======= 手动维护规则 ========
 # Cursor
@@ -210,6 +210,7 @@ DOMAIN-SUFFIX,geller-pa.googleapis.com
 DOMAIN-SUFFIX,gemini.google
 DOMAIN-SUFFIX,gemini.google.com
 DOMAIN-SUFFIX,gemini.gstatic.com
+DOMAIN-SUFFIX,gemma.ai
 DOMAIN-SUFFIX,generativeai.google
 DOMAIN-SUFFIX,generativelanguage.googleapis.com
 DOMAIN-SUFFIX,genspark.ai
